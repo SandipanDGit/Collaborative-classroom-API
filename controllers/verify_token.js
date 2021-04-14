@@ -18,16 +18,17 @@ exports.verify_token = (req, res, next)=>{
         jwt.verify(token, process.env.KEY, (error, decoded)=>{
             if(error){
                res
-               .status(404)
+               .status(400)
                .json({
                     status: false,
                     info: error.message
                 })
             }
             else{
-                //append res.locale to be checked by next middleware
+                //append res.locals to be checked by next middleware
                 res.locals.authenticated = true
                 res.locals.user = decoded
+                // console.log(decoded)
                 next()
             }
         })

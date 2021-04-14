@@ -3,7 +3,7 @@ const createError = require('http-errors')
 
 const router = express.Router()
 const verify_token = require("../controllers/verify_token")
-const dashboard = require("../controllers/students_controller")
+const { join_class } = require("../controllers/students_controller")
 
 /*NOTE
 
@@ -14,17 +14,19 @@ must be imported by name using destructuring or be called as object members
 2. if module.exports = single_function_name syntax is used, it can be imported and used directly 
 */
 
-router.get("/dashboard", verify_token.verify_token, dashboard)
+router.post("/join_class", verify_token.verify_token, join_class)
 
 //catch all route
 router.all("*", (req, res, next)=>{
-    next(createError.NotFound())
+    next(createError.NotFound("route or method invalid"))
 })
 
 //error handler
 router.use((error, req, res, next)=>{
-    res.status(400).json({
-        error: "route or method invalid"
+    res
+    .status(400)
+    .json({
+        error: error.message
     })
 })
 

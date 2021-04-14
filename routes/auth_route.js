@@ -2,7 +2,7 @@ const express = require("express")
 const createError = require('http-errors')
 
 const router = express.Router()
-const { register, login, other } = require("../controllers/auth_controller")
+const { register, login } = require("../controllers/auth_controller")
 
 router.post("/register", register)
 
@@ -12,13 +12,14 @@ router.post("/login", login)
 
 //catch all route
 router.all("*", (req, res, next)=>{
-    next(createError.NotFound())
+    next(createError.NotFound("route or method invalid"))
 })
 
 //error handler
 router.use((error, req, res, next)=>{
     res.status(400).json({
-        error: "route or method invalid"
+        status: false,
+        error: error.message
     })
 })
 

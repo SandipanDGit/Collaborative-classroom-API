@@ -1,6 +1,6 @@
 //SUPPORTING FILES
-const pool = require("../config/db_config")
-const {get_user, register} = require("../db_access/auth_db")
+const {get_user_cred, db_register} = require("../db_access/auth_db")
+const { validate_password } = require("../services/misc/validate_password")
 
 //DEPENDENCIES
 const bcrypt = require("bcrypt")
@@ -12,64 +12,90 @@ require('dotenv').config()
 //REGISTER NEW USER
 exports.register = (req, res, next)=>{
     
-    let email = req.body.email
-    let password = req.body.password
+    let user_data = {
+        email : req.body.email,
+        password : req.body.password,
+        user_name : req.body.name,
+        role : req.body.role,
+    }
+    user_data.course = (req.body.course)? user_data.course : "NULL"
+    user_data.specialization = (req.body.specialization)? user_data.specialization : "NULL"
+    user_data.institute = (req.body.institute)? user_data.institute : "NULL"
 
-    if(!validator.isEmail(email)){
+    if(!validator.isEmail(user_data.email)){
         res.status(400).json({
             status: false,
             info: "email not valid"
         })
     }
-    else if(!password){
+    else if(!user_data.password){
         res.status(400).json({
             status: false,
             info: "password not provided"
         })
     }
-
-    let query_log = get_user(email, function(query_log){
-
-        //check for sql query error
-        if(query_log.error){
-            res.status(500).json({
-                status: false,
-                info: query_log.error
-            })
-        }
-        //non empty result set - user already registered
-        else if(query_log.result.length > 0){
-            console.log(query_log.result.length)
-            res.status(400).json({
-                status: false,
-                info: "user already registered"
-            })
-        }    
-        //register new user
-        else{   
-            bcrypt.hash(password, 8, function(error, hash) {
-                
-                let query_log = register(email, hash, function(query_log){
-                    //check for sql error
-                    if(query_log.error){
-                        res.status(500).json({
-                            status: false,
-                            info: query_log.error
-                        })
-                    }
-                    //registration success
-                    else{
+    else if(!validate_password(user_data.password)){
+        res.status(400).json({
+            status: false,
+            info: "password format not valid"
+        })
+    }
+    else if(!user_data.user_name){
+        res.status(400).json({
+            status: false,
+            info: "user name not provided"
+        })
+    }
+    else if(!(user_data.role === "student" || user_data.role === "teacher")){
+        res.status(400).json({
+            status: false,
+            info: "invalid user role"
+        })
+    }
+    else{
+        // console.log(`passing email : ${user_data.email}`)
+        get_user_cred(user_data.email)
+        .then((result)=>{
+            
+            if(result){
+            //non empty result set - user already registered
+                res.status(400).json({
+                    status: false,
+                    info: "user already registered"
+                })
+            }    
+            else{   //register new user
+                bcrypt.hash(user_data.password, 8, function(error, hash) {
+                    
+                    user_data.password = hash
+                    db_register(user_data)
+                    .then((data)=>{
+                        //registration success
                         console.log("creating new user")
                         res.status(201).json({
                             status: true,
                             info: "user created"
                         })
-                    }
+                    })
+                    .catch((error)=>{
+                    //db error
+                        res.status(500).json({
+                            status: false,
+                            info: error.message
+                        })
+                    })
                 })
+            }
+
+        }).catch((error)=>{
+            res
+            .status(500)
+            .json({
+                status: false,
+                info: error.message
             })
-        }
- 
-    })
+        })
+    }
 }
 
 //LOGIN FUNCTION
@@ -90,47 +116,64 @@ exports.login = (req, res, next)=>{
             info: "password not provided"
         })
     }
+    else if(!validate_password(password)){
+        res.status(400).json({
+            status: false,
+            info: "password format not valid"
+        })
+    }
+    else{
+        get_user_cred(email)
+        .then((user)=>{
+            if(!user){    //user not found
+                res
+                .status(400)
+                .json({
+                    status: false,
+                    info: "user not found"
+                })
+            }
+            else{   //user found and result contains role
+                let stored_hash = user.password
+                
+                let user_cred = {
+                    id : user.id,
+                    email : email,
+                    name : user.name,
+                    role : user.role
+                }
+                bcrypt.compare(password, stored_hash, (err, compare_result)=>{
 
-    let query_log = get_user(email, function(query_log){
-        if(query_log.error){
+                    if(!compare_result){    //password mismatch
+                        res
+                        .status(400)
+                        .json({
+                            status: false,
+                            info: "password mismatch"
+                        })  
+                    }
+                    else{   
+                        //CREATE AND SEND JWT TOKEN 
+                        //JWT payload should contain role also (student or teacher)
+                        //token hardcoded to expire in 5 mins
+                        let token = jwt.sign(user_cred, process.env.KEY, { expiresIn : 3600}, (error, token)=>{  
+                            res.status(200).json({
+                                status: true,
+                                info: "login success",
+                                token: token
+                            })
+                        })
+                    }
+                })
+            }
+        })
+        .catch((error)=>{
             res
             .status(500)
             .json({
-                status: failure,
-                info: query_log.error
+                status: false,
+                info: error.message
             })
-        }
-        else if(query_log.result.length == 0){
-            res
-            .status(400)
-            .json({
-                status: failure,
-                info: "user not found"
-            })
-        }
-        else{
-            let stored_hash = query_log.result[0].password
-            
-            bcrypt.compare(password, stored_hash, (error, result)=>{
-                if(result){
-                    //CREATE AND SEND JWT TOKEN
-                    let token = jwt.sign({ email : email}, process.env.KEY, { expiresIn : 300}, (error, token)=>{
-                        res.status(200).json({
-                            status: true,
-                            info: "login success",
-                            token: token
-                        })
-                    })  
-                }
-                else{
-                    res.status(400).json({
-                        status: false,
-                        info: "password mismatch"
-                    })
-                }
-            })
-            
-        }
-    })
+        })
+    }
 }
-

@@ -8,16 +8,31 @@
 1. student's details
 2. student's classes
 3. student's quizzes
+4. join class
 
-## quiz questions page for student
+## assignment questions page for student
 
-1. quiz questions : subset of all the submitted questions that can be showed to the student, i.e. his own questions and teacher's sample questions
+1. assignment questions : subset of all the submitted questions that can be showed to the student, i.e. his own questions and teacher's sample questions
 
 ## student's contribution page
 1. add question
+2. get student details
+   
+## quiz starting page
+1. get quiz details
    
 ## quiz event
 1. quiz event : gets all the questions for a quiz beforehand 
+   
+## submit quiz button
+1. submit quiz stats
+   
+## quiz completion
+1. student's quiz stat
+2. allotted and answered questions
+
+## final submit button
+1. submit quiz question ratings 
 
 ## student's results
 1. student's result
@@ -27,14 +42,20 @@
 2. teacher's details
 3. teacher's quizzes
 
-## create new class
+## create new class button
 1. create class
 
-## new quiz
-1. create quiz
+## new assignment
+1. create assignment
+   
+## initial question list
+1. questions set by teacher
+
+## add question teacher
+1. add question teacher
 
 ## view contributions
-1. quiz questions
+1. assignment questions
 2. question action : 1 out of 4 below parameters to send
     * approve
     * disapprove
@@ -42,8 +63,11 @@
     * rating
 
 ## set exam
-1. quiz's question pool stats
+1. assignment's question pool stats
 2. create exam
 
 ## quiz's result for teacher
 1. result of a quiz : marks obtained by all attendents
+
+## assignment's result for teacher
+1. result of a assignment : total score obtained by all participants
