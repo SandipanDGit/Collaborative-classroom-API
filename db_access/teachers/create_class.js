@@ -1,4 +1,4 @@
-const pool = require("../config/db_config")
+const pool = require("../../config/db_config")
 
 //class admin and class name are mandatory parameters
 //rest will be set to NULL if not provided

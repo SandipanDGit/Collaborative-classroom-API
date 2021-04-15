@@ -1,5 +1,5 @@
-const { exists_student } = require("../db_access/exists_student")
-const { join_class } = require("../db_access/join_class")
+const { exists_student } = require("../../db_access/students/exists_student")
+const { join_class } = require("../../db_access/students/join_class")
 
 //=======================CLASS JOINING FUNCTION ==============================
 

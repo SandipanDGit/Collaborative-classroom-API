@@ -1,5 +1,5 @@
-const { create_class } = require("../db_access/create_class")
-const { exists_teacher } = require("../db_access/exists_teacher")
+const { create_class } = require("../../db_access/teachers/create_class")
+const { exists_teacher } = require("../../db_access/teachers/exists_teacher")
 //CLASS CREATION
 exports.create_class = (req, res, next)=>{
     

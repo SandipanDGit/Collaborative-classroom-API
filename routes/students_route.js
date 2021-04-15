@@ -3,7 +3,7 @@ const createError = require('http-errors')
 
 const router = express.Router()
 const verify_token = require("../controllers/verify_token")
-const { join_class } = require("../controllers/students_controller")
+const { join_class } = require("../controllers/students/join_class")
 
 /*NOTE
 

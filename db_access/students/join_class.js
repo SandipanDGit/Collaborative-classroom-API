@@ -1,4 +1,4 @@
-const pool = require("../config/db_config")
+const pool = require("../../config/db_config")
 require('dotenv').config()
 
 exports.join_class = ((sid, cid) => {

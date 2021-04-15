@@ -1,5 +1,5 @@
 const { json } = require("body-parser")
-const pool = require("../config/db_config")
+const pool = require("../../config/db_config")
 
 //returns true if student id exists in students table, otherwise false
 exports.exists_student = (id)=>{
