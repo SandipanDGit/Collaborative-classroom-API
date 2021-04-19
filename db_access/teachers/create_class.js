@@ -17,7 +17,7 @@ exports.create_class = (class_data)=>{
         let query = `insert into ${process.env.DB_NAME}.classroom (cid, admin, class_name, course, subject, institute) values(0, ?, ?, ?, ?,?);`
         pool.query(query, [admin, class_name, course, subject, institute], (error, results)=>{
             if(!error){
-                resolve(true)
+                resolve(results["insertId"])
             }
             else{
                 reject(err)

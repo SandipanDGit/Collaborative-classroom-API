@@ -1,20 +1,20 @@
 # PAGE WISE LIST OF ROUTES
 
-## homepage     +
-1. register     +
-2. login        +
+## homepage     D
+1. register D
+2. login D
 
 ## student's dashboard
 1. student's details
 2. student's classes
 3. student's quizzes
-4. join class       +
+4. join class       D
 
 ## assignment questions page for student
 1. assignment questions : subset of all the submitted questions that can be showed to the student, i.e. his own questions and teacher's sample questions
 
 ## student's contribution page
-1. add question
+1. add question D
 2. get student details
    
 ## quiz starting page
@@ -42,16 +42,16 @@
 3. teacher's quizzes
 
 ## create new class button
-1. create class     +
+1. create class     D
 
 ## new assignment
-1. create assignment
+1. create assignment    D
    
 ## initial question list
 1. questions set by teacher
 
 ## add question teacher
-1. add question teacher
+1. add question teacher D
 
 ## view contributions
 1. assignment questions

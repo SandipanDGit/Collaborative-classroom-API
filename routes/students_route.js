@@ -4,6 +4,7 @@ const createError = require('http-errors')
 const router = express.Router()
 const verify_token = require("../controllers/verify_token")
 const { join_class } = require("../controllers/students/join_class")
+const { add_question } = require("../controllers/students/add_question")
 
 /*NOTE
 
@@ -15,6 +16,7 @@ must be imported by name using destructuring or be called as object members
 */
 
 router.post("/join_class", verify_token.verify_token, join_class)
+router.post("/add_question", verify_token.verify_token, add_question)
 
 //catch all route
 router.all("*", (req, res, next)=>{

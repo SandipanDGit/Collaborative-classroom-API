@@ -29,6 +29,7 @@ exports.verify_token = (req, res, next)=>{
                 res.locals.authenticated = true
                 res.locals.user = decoded
                 // console.log(decoded)
+                // console.log(res.locals)
                 next()
             }
         })

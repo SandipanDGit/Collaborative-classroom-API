@@ -12,9 +12,9 @@ exports.create_qbank = (qb_data)=>{
 
         //perform query
         let query = `insert into ${process.env.DB_NAME}.qb (qbid, cid, title, description, created_at, contribution_deadline, min_contribute, max_contribute) values(0, ?, ?, ?, CURRENT_TIMESTAMP(), ?, ?, ?);`
-        pool.query(query, [cid, qb_title, qb_description, contribution_deadline, min_contribution, max_contribution], (error, results)=>{
+        pool.query(query, [cid, qb_title, qb_description, contribution_deadline, min_contribution, max_contribution], (error, results, fields)=>{
             if(!error){
-                resolve(true)
+                resolve(results.insertId)
             }
             else{
                 console.log(`error : ${error}`)

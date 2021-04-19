@@ -127,12 +127,12 @@ exports.create_qbank = (req, res, next)=>{
         .status(201)
         .json({
             status: true,
-            info: "question bank created"
+            info: "question bank created",
+            insert_id: data
         })
     })
     .catch((error)=>{
         //when database error occured
-        console.log("qb_c: 133")
         res
         .status(500)
         .json({

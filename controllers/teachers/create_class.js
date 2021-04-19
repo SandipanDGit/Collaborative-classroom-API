@@ -42,7 +42,8 @@ exports.create_class = (req, res, next)=>{
         .status(201)
         .json({
             status: true,
-            info: "class created"
+            info: "class created",
+            insert_id : data
         })
     })
     .catch(error => {
