@@ -105,10 +105,11 @@ exports.create_qbank = (req, res, next)=>{
     //javascript timestamp is in mili seconds, unix timestamp is in seconds. division by 1000 gives unix timestamp
     //API is designed to accept in mili seconds
 
-    if("contribution_deadline" in req.body && req.body.contribution_deadline !== undefined 
-    && req.body.contribution_deadline > Date.now()){
-        
-        qbank_data.contribution_deadline = date.format(new Date(req.body.contribution_deadline), 'YYYY/MM/DD HH:mm:ss') 
+
+    if("contribution_deadline" in req.body && req.body.contribution_deadline !== undefined && req.body.contribution_deadline > Date.now()){
+        // qbank_data.contribution_deadline = date.format(new Date(req.body.contribution_deadline), 'YYYY/MM/DD HH:mm:ss') 
+        // console.log(qbank_data.contribution_deadline)
+        qbank_data.contribution_deadline = req.body.contribution_deadline
     }     
     else{
         res
