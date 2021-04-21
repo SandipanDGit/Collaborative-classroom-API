@@ -12,14 +12,23 @@ exports.create_quiz = (quiz_data)=>{
         let query = `insert into quiz (quizid, qbid, duration, marks_per_q, start_time, instruction)
         values(0, ?, ?, ?, ?, ?)`
 
-        console.log(Date.now())
-        console.log(`user input : ${quiz_data.start_time}`)
+        // console.log(Date.now())
+        // console.log(`user input : ${quiz_data.start_time}`)
         pool.query(query, [qbid, duration, marks_per_q, start_time, instructions], (error, results, fields)=>{
             if(!error)
             {
+
+                console.log("no error")
                 resolve(results["insertId"])
             }
             else{
+                // for (var property in error) {
+                //     if (error.hasOwnProperty(property)) {
+                //         // do stuff
+                //         console.log("property:",property);
+                //         console.log("value:",error[property]);
+                //     }
+                // }
                 reject(error)
             }
         })

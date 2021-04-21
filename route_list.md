@@ -55,15 +55,15 @@
 
 ## view contributions
 1. assignment questions
-2. question action : 1 out of 4 below parameters to send
+2. question action : 1 out of 3 below parameters to send    D
     * approve
     * disapprove
     * rejecton repetition
-    * rating
+  and rating    
 
 ## set exam
 1. assignment's question pool stats
-2. create exam
+2. create exam  D
 
 ## quiz's result for teacher
 1. result of a quiz : marks obtained by all attendents

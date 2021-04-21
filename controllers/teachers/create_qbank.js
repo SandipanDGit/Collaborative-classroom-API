@@ -34,7 +34,7 @@ exports.create_qbank = (req, res, next)=>{
 
     //CHECK IF ALL THE PARAMETERS ARE PROVIDED IN REQUEST
 
-    if("cid" in req.body && req.body.cid !== undefined) 
+    if("cid" in req.body && req.body.cid !== undefined && typeof(req.body.cid) == "number") 
         qbank_data.cid = req.body.cid
     else{
         res
@@ -46,7 +46,7 @@ exports.create_qbank = (req, res, next)=>{
         return
     }
 
-    if("qb_title" in req.body && req.body.qb_title !== undefined) 
+    if("qb_title" in req.body && req.body.qb_title !== undefined && typeof(req.body.qb_title) == "string") 
         qbank_data.qb_title = req.body.qb_title
     else{
         res
@@ -58,7 +58,7 @@ exports.create_qbank = (req, res, next)=>{
         return
     }
 
-    if("qb_description" in req.body && req.body.qb_description !== undefined) 
+    if("qb_description" in req.body && req.body.qb_description !== undefined && typeof(req.body.qb_description) == "string") 
         qbank_data.qb_description = req.body.qb_description
     else{
         res
@@ -70,7 +70,7 @@ exports.create_qbank = (req, res, next)=>{
         return
     }
     //check if min_contribution is between 0 and 100
-    if("min_contribution" in req.body && req.body.min_contribution !== undefined 
+    if("min_contribution" in req.body && req.body.min_contribution !== undefined && typeof(req.body.min_contribution) == "number"
         && req.body.min_contribution>=0 && req.body.min_contribution<=100){
 
             qbank_data.min_contribution = req.body.min_contribution
@@ -86,10 +86,10 @@ exports.create_qbank = (req, res, next)=>{
     }
 
     //check if 0 < max_contribution <= 100
-    if("max_contribution" in req.body && req.body.max_contribution !== undefined 
-        && req.body.max_contribution>0 && req.body.max_contribution<=100){
+    if("max_contribution" in req.body && req.body.max_contribution !== undefined && typeof(req.body.max_contribution) == "number"
+        && req.body.max_contribution > 0 && req.body.max_contribution <= 100 && req.body.max_contribution > req.body.min_contribution){
 
-            qbank_data.max_contribution = req.body.max_contribution
+        qbank_data.max_contribution = req.body.max_contribution
     }
     else{
         res

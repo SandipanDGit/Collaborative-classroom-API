@@ -29,11 +29,55 @@ exports.create_class = (req, res, next)=>{
         //fetch class admin id from login data - token
         admin : res.locals.user.id,
         //fetch other info from request body
-        class_name : req.body.class_name,
-        course : req.body.course ,
-        subject : req.body.subject,
-        institute : req.body.institute
+        class_name : undefined,
+        course : undefined,
+        subject : undefined,
+        institute : undefined
     }
+
+    //validate request parameters
+    //class_name is mandatory parameter
+    if(!("class_name" in req.body && req.body.class_name !== "")){
+        res
+        .status(400)
+        .json({ 
+            status: false,
+            info: "class name missing"
+        })
+        return
+        
+    }
+    else{
+        class_data.class_name = req.body.class_name
+    }
+
+    //course is optional
+    if(!("course" in req.body && typeof(req.body.course) == "string")){
+        class_data.course = req.body.course
+    }
+    else{
+        //null/undefined is converted to mysql NULL 
+        class_data.course = null
+    }
+
+    //subject is optional
+    if(!("subject" in req.body && typeof(req.body.subject) == "string")){
+        class_data.subject = req.body.subject
+    }
+    else{
+        //null/undefined is converted to mysql NULL 
+        class_data.subject = null
+    }
+
+    //institute is optional
+    if(!("institute" in req.body && typeof(req.body.institute) == "string")){
+        class_data.institute = req.body.institute
+    }
+    else{
+        //null/undefined is converted to mysql NULL 
+        class_data.institute = null
+    }
+    
 
     create_class(class_data)
     .then(data => {
@@ -45,6 +89,7 @@ exports.create_class = (req, res, next)=>{
             info: "class created",
             insert_id : data
         })
+        return
     })
     .catch(error => {
     //when database error occured
@@ -54,5 +99,6 @@ exports.create_class = (req, res, next)=>{
             status: false,
             info: error
         })
+        return
     })
 }

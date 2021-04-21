@@ -22,6 +22,29 @@ exports.add_question = (req, res, next)=>{
         return
     }
 
+    //request data validation
+    if(!(req.body.hasOwnProperty("qbid") && req.body.qbid)){
+        res.status(400).json({ status: false, info: "qbid missing"})
+    }
+    if(!(req.body.hasOwnProperty("question") && req.body.question && typeof(req.body.question) == "string")){
+        res.status(400).json({ status: false, info: "question missing"})
+    }
+    if(!(req.body.hasOwnProperty("correct_option") && req.body.correct_option && typeof(req.body.correct_option) == "number")){
+        res.status(400).json({ status: false, info: "correct option missing"})
+    }
+    if(!(req.body.hasOwnProperty("option1") && req.body.option1 && typeof(req.body.option1) == "string")){
+        res.status(400).json({ status: false, info: "option1 missing"})
+    }
+    if(!(req.body.hasOwnProperty("option2") && req.body.option1 && typeof(req.body.option2) == "string")){
+        res.status(400).json({ status: false, info: "option2 missing"})
+    }
+    if(!(req.body.hasOwnProperty("option3") && req.body.option3 && typeof(req.body.option3) == "string")){
+        res.status(400).json({ status: false, info: "option3 missing"})
+    }
+    if(!(req.body.hasOwnProperty("option4") && req.body.option4 && typeof(req.body.option4) == "string")){
+        res.status(400).json({ status: false, info: "option4 missing"})
+    }
+    
     //fetch question info from request body
     let question_data = {
         qbid : req.body.qbid,
@@ -34,8 +57,6 @@ exports.add_question = (req, res, next)=>{
         option4 : req.body.option4,
         correct_option : req.body.correct_option
     }
-
-    //request data validation
     
     //check if student belongs to the class which owns the qbank
     //returns count of matches sid-cid in members table (should be 1)
@@ -49,19 +70,10 @@ exports.add_question = (req, res, next)=>{
             }) 
             return
         }
+        //calling next async function that returns a promise
+        //promise will be handled by next .then block
+        return add_question(question_data)
     })
-    .catch(error => {
-        res
-        .status(500)
-        .json({
-            status : false,
-            info : error
-        })
-        return
-    })
-
-
-    add_question(question_data)
     .then(data => {
         if(data){
             res
@@ -88,5 +100,5 @@ exports.add_question = (req, res, next)=>{
             status : false,
             info : error
         })
-    })
+    })  
 }

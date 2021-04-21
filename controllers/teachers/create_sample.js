@@ -48,7 +48,7 @@ exports.create_sample = (req, res, next)=>{
     
     let error_flag = 0
     let error_message = ""
-    if("qbid" in req.body && req.body.qbid && typeof(req.body.tid) == "number"){
+    if("qbid" in req.body && req.body.qbid && typeof(req.body.qbid) == "number"){
         sample_data.qbid = req.body.qbid
     }
     else{
@@ -70,36 +70,26 @@ exports.create_sample = (req, res, next)=>{
             status: false,
             info : error_message
         })
+        return
     }
 
     //authorize if teacher controls the qb
+    //returns tid who controls the question bank
     teacher_qb(sample_data.tid, sample_data.qbid)
     .then( data => {
         //temporary
-        if(sample_data.tid == data){
-            //continue
-        }
-        else{
+        if(sample_data.tid !== data){
             res
             .status(401)
             .json({
                 status: false,
                 info: "teacher is not authorized to add question in this qb"
             })
-        return
+            return
         }
+        //chaining promise
+        create_sample(sample_data)
     })
-    .catch(error => {
-        res
-        .status(500)
-        .json({
-            status: false,
-            info: error
-        })
-        return
-    })
-
-    create_sample(sample_data)
     .then((data)=>{
         res
         .status(201)
@@ -108,6 +98,7 @@ exports.create_sample = (req, res, next)=>{
             info: `sample question created in qb : ${sample_data.qbid}`,
             question_id : data
         })
+        return
     })
     .catch((error)=>{
         //when database error occured
@@ -115,7 +106,7 @@ exports.create_sample = (req, res, next)=>{
         .status(500)
         .json({
             status: false,
-            info: error
+            info: error.message
         })
     })
     

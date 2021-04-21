@@ -11,6 +11,7 @@ exports.teacher_qb = (tid, qbid) => {
                         resolve(results[property]["admin"])
                     }
                 }
+                reject(new Error("teacher <-> question bank not found"))
             }
             else{
                 reject(error)

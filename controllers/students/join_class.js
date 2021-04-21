@@ -24,10 +24,18 @@ exports.join_class = (req, res, next)=>{
         })
         return
     }
-    //fetch sid id from login data - token
+    //fetch student id from login data - token
     let sid = res.locals.user.id
+    
     //fetch other info from request body
-    let cid = req.body.cid
+    let cid = undefined
+    if(req.body.hasOwnProperty("cid") && req.body.cid)
+        cid = req.body.cid
+    else{
+        res.status(400).json({ status: false, info: "cid missing"})
+        return
+    }
+
 
     join_class(sid, cid)
     .then(data => {

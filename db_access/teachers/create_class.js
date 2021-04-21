@@ -20,7 +20,7 @@ exports.create_class = (class_data)=>{
                 resolve(results["insertId"])
             }
             else{
-                reject(err)
+                reject(error)
             }
         })
     })
