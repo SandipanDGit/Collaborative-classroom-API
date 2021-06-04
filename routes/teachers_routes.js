@@ -9,12 +9,14 @@ const { create_qbank } = require("../controllers/teachers/create_qbank")
 const { create_sample } = require("../controllers/teachers/create_sample")
 const { create_quiz } = require("../controllers/teachers/create_quiz")
 const { rate_question } = require("../controllers/teachers/rate_question")
+const { allocate_questions } = require("../controllers/teachers/allocate_questions")
 
 router.post("/create_class", verify_token.verify_token, create_class)
 router.post("/create_qbank", verify_token.verify_token, create_qbank)
 router.post("/create_sample", verify_token.verify_token, create_sample)
 router.post("/create_quiz", verify_token.verify_token, create_quiz)
 router.post("/rate_question", verify_token.verify_token, rate_question)
+router.post("/allocate_questions", verify_token.verify_token, allocate_questions)
 
 //catch all route
 router.all("*", (req, res, next)=>{
