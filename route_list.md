@@ -58,10 +58,10 @@
 # view contributions
 16.1. assignment questions  
 16.2. question action : 1 out of 3 below parameters to send    D
-    * approve
-    * disapprove
-    * rejecton repetition
-  and rating    
+  * approve
+  * disapprove
+  * reject on repetition  
+  and rating   
 
 # set exam
 17.1. assignment's question pool stats  
