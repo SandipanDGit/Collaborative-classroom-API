@@ -1,5 +1,5 @@
-const { submit_response } = require("../../db_access/students/submit_response")
-const { allotment_exists } = require("../../db_access/students/fetch/allotment_exists")
+const { submit_response } = require("../../db_access/quiz/submit_response")
+const { allotment_exists } = require("../../db_access/quiz/allotment_exists")
 
 exports.submit_response = (req, res, next)=>{
     if(!res.locals.authenticated){

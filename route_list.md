@@ -23,10 +23,10 @@
 5.2. get allocated questions by quiz and student 
    
 # quiz event
-6.1. quiz event : gets all the questions for a quiz beforehand 
+6.1. get allotments for a student beforehand 
    
 # submit response
-7.1. submit one question's response
+7.1. submit one question's response D
    
 # quiz completion
 8.1. student's quiz stat  

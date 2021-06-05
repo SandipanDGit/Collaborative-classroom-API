@@ -5,7 +5,6 @@ const router = express.Router()
 const verify_token = require("../controllers/verify_token")
 const { join_class } = require("../controllers/students/join_class")
 const { add_question } = require("../controllers/students/add_question")
-const { submit_response } = require("../controllers/students/submit_response")
 
 /*NOTE
 
@@ -18,7 +17,6 @@ must be imported by name using destructuring or be called as object members
 
 router.post("/join_class", verify_token.verify_token, join_class)
 router.post("/add_question", verify_token.verify_token, add_question)
-router.post("/submit_response", verify_token.verify_token, submit_response)
 
 //catch all route
 router.all("*", (req, res, next)=>{

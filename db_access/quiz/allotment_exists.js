@@ -1,5 +1,5 @@
 const { json } = require("body-parser")
-const pool = require("../../../config/db_config")
+const pool = require("../../config/db_config")
 
 //returns the list of students entitled for a quiz
 exports.allotment_exists = (quizid, sid, qid)=>{
