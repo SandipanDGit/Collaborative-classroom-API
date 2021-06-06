@@ -20,10 +20,9 @@
    
 # quiz starting page
 5.1. get quiz details  
-5.2. get allocated questions by quiz and student 
    
 # quiz event
-6.1. get allotments for a student beforehand 
+6.1. get allotments for a student for a quiz D
    
 # submit response
 7.1. submit one question's response D
@@ -33,7 +32,7 @@
 8.2. allotted and answered questions
 
 # final submit button
-9.1. submit quiz question ratings 
+9.1. submit student's ratings D
 
 # student's results
 10.1. student's result

@@ -1,7 +1,7 @@
-const { submit_response } = require("../../db_access/quiz/submit_response")
-const { allotment_exists } = require("../../db_access/quiz/allotment_exists")
+const { submit_rating } = require("../../db_access/students/submit_rating")
+const { rating_exists } = require("../../db_access/students/rating_exists")
 
-exports.submit_response = (req, res, next)=>{
+exports.submit_rating = (req, res, next)=>{
     if(!res.locals.authenticated){
         res
         .status(400)
@@ -26,35 +26,25 @@ exports.submit_response = (req, res, next)=>{
     if(!(req.body.hasOwnProperty("qid") && req.body.qid)){
         res.status(400).json({ status: false, info: "question id(qid) missing or invalid"})
     }
-    if(!(req.body.hasOwnProperty("sid") && req.body.sid && typeof(req.body.sid) == "number")){
-        res.status(400).json({ status: false, info: "sid missing or invalid"})
-    }
     if(!(req.body.hasOwnProperty("quizid") && req.body.quizid && typeof(req.body.quizid) == "number")){
         res.status(400).json({ status: false, info: "quizid missing or invalid"})
     }
-    if(!(req.body.hasOwnProperty("response") && req.body.response && typeof(req.body.response) == "number")){
-        res.status(400).json({ status: false, info: "response option missing or invalid"})
+    if(!(req.body.hasOwnProperty("rating") && req.body.rating && typeof(req.body.rating) == "number")){
+        res.status(400).json({ status: false, info: "rating option missing or invalid"})
     }
-    if(!(req.body.hasOwnProperty("attempt_status") && req.body.attempt_status && typeof(req.body.attempt_status) == "number")){
-        res.status(400).json({ status: false, info: "attempt_status missing or invalid"})
-    }
-    if(!(req.body.hasOwnProperty("time_taken") && req.body.time_taken && typeof(req.body.time_taken) == "number")){
-        res.status(400).json({ status: false, info: "time_taken missing or invalid"})
-    }
+    
     //fetch sid from res.locals.user.id
     //fetch question info from request body
-    let response_data = {
+    let rating_data = {
         qid: req.body.qid,
-        sid: req.body.sid,
+        sid: res.locals.user.id,
         quizid: req.body.quizid,
-        response: req.body.response,
-        attempt_status: req.body.attempt_status,
-        time_taken: req.body.time_taken
+        rating: req.body.rating,
     }
     
     //check if student is entitled to this quiz
-    //by checking if  a record exists in allotment table with given data
-    allotment_exists(response_data.quizid, response_data.sid, response_data.qid)
+    //by checking if a record exists in allotment table with given data
+    rating_exists(rating_data.quizid, rating_data.sid, rating_data.qid)
     .then(flag => {
         if(!flag){
             res
@@ -66,7 +56,7 @@ exports.submit_response = (req, res, next)=>{
         }
         //calling next async function that returns a promise
         //promise will be handled by next .then block
-        return submit_response(response_data)
+        return submit_rating(rating_data)
     })
     .then(flag => {
         if(flag){
@@ -74,7 +64,7 @@ exports.submit_response = (req, res, next)=>{
             .status(201)
             .json({
                 status : true,
-                info : "response updated",
+                info : "rating updated",
             })
         }
     })
@@ -83,7 +73,7 @@ exports.submit_response = (req, res, next)=>{
         .status(500)
         .json({
             status : false,
-            info : error
+            info : error.message
         })
     })  
 }
