@@ -9,6 +9,7 @@ const { submit_rating } = require("../controllers/students/submit_rating")
 const { fetch_details } = require("../controllers/students/fetch_details")
 const { fetch_classes } = require("../controllers/students/fetch_classes")
 const { fetch_quizzes } = require("../controllers/students/fetch_quizzes")
+const { qb_questions } = require("../controllers/students/qb_questions")
 
 /*NOTE
 
@@ -25,6 +26,7 @@ router.post("/submit_rating", verify_token.verify_token, submit_rating)
 router.get("/fetch_details", verify_token.verify_token, fetch_details)
 router.get("/fetch_classes", verify_token.verify_token, fetch_classes)
 router.get("/fetch_quizzes", verify_token.verify_token, fetch_quizzes)
+router.post("/qb_questions", verify_token.verify_token, qb_questions)
 
 //catch all route
 router.all("*", (req, res, next)=>{

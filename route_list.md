@@ -12,7 +12,7 @@
 2.4. join class D
 
 # assignment questions page for student
-3.1. assignment questions : subset of all the submitted questions that can be showed to the student, i.e. his own questions and teacher's sample questions
+3.1. assignment questions : subset of all the submitted questions that can be showed to the student, i.e. his own questions and teacher's sample questions D
 
 # student's contribution page
 4.1. add question D  
@@ -38,9 +38,9 @@
 10.1. student's result
 
 # teacher's dashboard
-11.1. teacher's classes  
-11.2. teacher's details  
-11.3. teacher's quizzes
+11.1. teacher's classes  D  
+11.2. teacher's details  D  
+11.3. teacher's quizzes  D
 
 # create new class button
 12.1. create class     D
