@@ -6,9 +6,9 @@
 1.2. login D
 
 # student's dashboard
-2.1. student's details  
-2.2. student's classes  
-2.3. student's quizzes  
+2.1. student's details D   
+2.2. student's classes D  
+2.3. student's quizzes D   
 2.4. join class D
 
 # assignment questions page for student
